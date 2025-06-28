@@ -1,9 +1,8 @@
 class Solution {
     public boolean isValid(String s) {
-        Deque<Character> st = new ArrayDeque<>();
+        Stack<Character> st = new Stack<>();
 
-        for (int i=0; i<s.length(); i++) {
-            Character ch = s.charAt(i);
+        for (Character ch: s.toCharArray()) {
             Character top;
             
             switch (ch) {
@@ -13,26 +12,20 @@ class Solution {
                     st.push(ch);
                     break;
                 case ')':
-                    top = st.poll();
-                    if (top ==null || top != '(')
+                    if (st.isEmpty() || st.pop() != '(')
                         return false;
                     break;
                 case '}':
-                    top = st.poll();
-                    if (top ==null || top != '{')
+                    if (st.isEmpty() || st.pop() != '{')
                         return false;
                     break;
                 case ']':
-                    top = st.poll();
-                    if (top ==null || top != '[')
+                    if (st.isEmpty() || st.pop() != '[')
                         return false;
                     break;
             }
         }
 
-        if (st.size() > 0)
-            return false;
-
-        return true;
+        return st.isEmpty();
     }
 }
