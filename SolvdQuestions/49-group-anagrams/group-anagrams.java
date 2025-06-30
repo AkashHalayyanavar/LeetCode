@@ -3,21 +3,22 @@ class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
         
         List<List<String>> result;
-        Map<String, List<String>> mp = new HashMap<>();
+        Map<Map<Character, Integer>, List<String>> mp = new HashMap<>();
 
         for (String str: strs) {
-            // sort the string
-            char[] charArray = str.toCharArray();
-            Arrays.sort(charArray);
-            String sortedStr = new String(charArray);
+            // create a map of characters
+            Map<Character, Integer> charMap = new HashMap<>();
+            for (Character ch: str.toCharArray()) {
+                charMap.put(ch, charMap.getOrDefault(ch, 0) + 1);
+            }
             
-            // put the orignal string in the hashmap list with sortedStr as key
-            List<String> strList = mp.get(sortedStr);
+            // put the orignal string in the hashmap list with charMap as key
+            List<String> strList = mp.get(charMap);
             // new group case
             if (strList == null) {
                 strList = new ArrayList<>();
                 strList.add(str);
-                mp.put(sortedStr, strList);
+                mp.put(charMap, strList);
             } else {
                 strList.add(str);
             }
