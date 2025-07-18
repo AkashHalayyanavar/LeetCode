@@ -1,24 +1,30 @@
 class Solution {
 
-    void func(String s, int o, int c, int n, List<String> result) {
+    void buildWellFormedParenthesis(StringBuilder sb, int openCount, int closedCount, int n, List<String> result) {
 
-        if (o==n && c==n) {
-            result.add(s);
+        if (openCount==n && closedCount==n) {
+            result.add(sb.toString());
             return;
         }
 
-        if (o>n || c>n || c>o)
-            return;
+        if (openCount < n) {
+            sb.append("(");
+            buildWellFormedParenthesis(sb, openCount+1, closedCount, n, result);
+            sb.deleteCharAt(sb.length()-1);
+        }
 
-        func(s+"(", o+1, c, n, result);
-        func(s+")", o, c+1, n, result);
+        if (closedCount < openCount) {
+            sb.append(")");
+            buildWellFormedParenthesis(sb, openCount, closedCount+1, n, result);
+            sb.deleteCharAt(sb.length()-1);
+        }
     }
 
     public List<String> generateParenthesis(int n) {
 
         List<String> result = new ArrayList<>();
 
-        func("", 0, 0, n, result);
+        buildWellFormedParenthesis(new StringBuilder(), 0, 0, n, result);
 
         return result;
     }
