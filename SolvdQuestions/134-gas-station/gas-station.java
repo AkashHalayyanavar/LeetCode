@@ -1,12 +1,8 @@
 class Solution {
     public int canCompleteCircuit(int[] gas, int[] cost) {
 
-        int totalGas = Arrays.stream(gas).sum();
-        int totalCost = Arrays.stream(cost).sum();
-
-        // if totalcost is greater than totalgas, then it is not possible to complete circle from any index
-        if (totalCost > totalGas) 
-            return -1;
+        int totalGas = 0;
+        int totalCost = 0;
 
         // Else, there is definitely one index which completes the circle
         int n = gas.length;
@@ -14,7 +10,9 @@ class Solution {
         int currGas = 0;
         
         for (int i=0; i<n; i++) {
-
+            totalGas += gas[i];
+            totalCost += cost[i];
+            
             currGas += gas[i];
 
             // cannot reach next index
@@ -26,6 +24,10 @@ class Solution {
             }
 
         }
+
+        // if totalcost is greater than totalgas, then it is not possible to complete circle from any index
+        if (totalCost > totalGas) 
+            return -1;
 
         return start;
     }
