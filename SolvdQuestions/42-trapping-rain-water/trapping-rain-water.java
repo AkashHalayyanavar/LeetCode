@@ -1,31 +1,27 @@
 class Solution {
     public int trap(int[] height) {
-
+        
         int n = height.length;
-        
-        int leftMax=0, rightMax=0, result=0;
-        int left=0, right=n-1;
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+        int area = 0;
 
-        while (left < right) {
+        leftMax[0] = height[0];
+        rightMax[n-1] = height[n-1];
 
-            // compute leftMax for left pointer
-            leftMax = Math.max(height[left], leftMax);
-
-            // compute rightMax for right pointer
-            rightMax = Math.max(height[right], rightMax);
-
-            // leftMax is the deciding factor for left pointer index
-            if (leftMax < rightMax) {
-                result += (leftMax - height[left]);
-                left++;
-            }
-            // rightMax is the deciding factor for right pointer index
-            else {
-                result += (rightMax - height[right]);
-                right--;
-            }
+        for (int i=1; i<n; i++) {
+            leftMax[i] = Math.max(height[i], leftMax[i-1]);
         }
-        
-        return result;
+
+        for (int i=n-2; i>=0; i--)
+            rightMax[i] = Math.max(height[i], rightMax[i+1]);
+
+        for (int i=1; i<=n-2; i++) {
+
+            area += Math.max(height[i], Math.min(leftMax[i-1], rightMax[i+1])) - height[i];
+
+        }
+
+        return area;
     }
 }
