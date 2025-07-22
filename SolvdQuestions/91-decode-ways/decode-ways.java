@@ -3,23 +3,24 @@ class Solution {
 
         int n = s.length();
         int[] dp = new int[n];
-        int count = 0;
 
         // base case
-        dp[0] = (s.charAt(0) == '0') ? 0 : 1;
+        if ( s.charAt(0) >= '1' && s.charAt(0) <= '9')
+            dp[0] = 1;
+        else
+            return 0;
 
+        // fill other values using dp
         for (int i=1; i<n; i++) {
-            int currDig = s.charAt(i) - '0';
-            int lastTwoDig = (s.charAt(i-1) - '0') * 10 + currDig;
-
-            if (currDig >= 1 && currDig <= 9)
+            if ( s.charAt(i) >= '1' && s.charAt(i) <= '9')
                 dp[i] = dp[i-1];
 
+            int lastTwoDig = (s.charAt(i-1) - '0') * 10 + (s.charAt(i) - '0');
             if (lastTwoDig >= 10 && lastTwoDig <= 26)
-                dp[i] += (i==1) ? 1 : dp[i-2];
-         }
+                dp[i] = dp[i] + ( i>=2 ? dp[i-2] : 1 );
+            
+        }
 
         return dp[n-1];
-        
     }
 }
