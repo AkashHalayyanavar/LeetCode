@@ -25,6 +25,7 @@ class Solution {
 
         sum = Math.max(sum, root.val + left + right);
 
+        // Make sure that the return value is >= 0
         return Math.max(0, Math.max(0, Math.max(left, right)) + root.val);
     }
 
