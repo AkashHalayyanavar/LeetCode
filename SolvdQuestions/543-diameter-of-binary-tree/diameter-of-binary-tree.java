@@ -16,25 +16,20 @@
 class Solution {
     int diameter = 0;
 
-    int computeDiameter(TreeNode root) {
-        if (root==null)
+    int helper(TreeNode root) {
+        if (root == null)
             return 0;
 
-        if (root.left==null && root.right==null)
-            return 1;
+        int left = helper(root.left);
+        int right = helper(root.right);
 
-        int leftLen = computeDiameter(root.left);
-        int rightLen = computeDiameter(root.right);
+        diameter = Math.max(diameter, left+right);
 
-        diameter = Math.max(diameter, leftLen + rightLen);
-
-        return Math.max(leftLen, rightLen) + 1;
+        return Math.max(left, right) + 1;
     }
 
     public int diameterOfBinaryTree(TreeNode root) {
-
-        computeDiameter(root);
+        helper(root);
         return diameter;
-        
     }
 }
