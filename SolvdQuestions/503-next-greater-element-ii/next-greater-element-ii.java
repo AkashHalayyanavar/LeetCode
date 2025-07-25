@@ -6,32 +6,20 @@ class Solution {
         int n = nums.length;
         int[] result = new int[n];
 
-        Arrays.fill(result, Integer.MIN_VALUE);
+        Arrays.fill(result, -1);
 
         // same way put into the stack like next greater element I
-        // only change in this loop, is do not put in map the value -1 if not found
-        for (int i=n-1; i>=0; i--) {
-            while (!st.isEmpty() && nums[i] >= st.peek())
+        // only change is we run this loop twice, i.e., starting from 2n-1
+        for (int i=2*n-1; i>=0; i--) {
+            while (!st.isEmpty() && nums[i%n] >= st.peek())
                 st.poll();
 
             if (!st.isEmpty())
-                result[i] = st.peek();
+                result[i%n] = st.peek();
 
-            st.push(nums[i]);
+            st.push(nums[i%n]);
         }
 
-        // now traverse the for loop again, this time do the same checks
-        for (int i=n-1; i>=0; i--) {
-            while (!st.isEmpty() && nums[i] >= st.peek())
-                st.poll();
-
-            if (result[i] == Integer.MIN_VALUE) {
-                if (!st.isEmpty())
-                    result[i] = st.peek();
-                else
-                    result[i] = -1;
-            }
-        }
 
         return result;
     }
