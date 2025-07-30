@@ -23,6 +23,8 @@ class Solution {
         // Let's always make the left partition equal (in equal case) or greater by one (in odd case) compared to right partition
         int leftLen =  (m+n+1) / 2;
 
+        // the mid obtained will not be included in the left partition, hence we keep high till m
+        // when mid is m => a left will contain elements from 0 to (m-1)
         int low=0, high=m;
 
         while (low <= high) {
