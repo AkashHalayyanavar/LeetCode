@@ -1,34 +1,53 @@
 class Solution {
-
     public int longestValidParentheses(String s) {
 
-        int maxLen = 0;
-        // Push and pop indices
-        Deque<Integer> st = new ArrayDeque<>();
+        int left=0;
+        int right=0;
+        int max=0;
         int n = s.length();
 
-        // insert -1 to the stack, 
-        // this is like a reset point, which will help to reset the start of curr valid parentheses
-        st.push(-1);
-
+        // The below loop handles right ')' orphans but doesn't handle left '(' orphans 
         for (int i=0; i<n; i++) {
-            // if we see '(' just push it and update curr
             if (s.charAt(i) == '(')
-                st.push(i);
+                left++;
+            else
+                right++;
+            
+            // update max if left and right match
+            if (left == right)
+                max = Math.max(max, 2*left);
 
-            // else case ')'
-            else {
-                st.poll();
-                // is stack is empty, which means at this point the valid paranthesis ended, so reset it by pushing
-                if (st.isEmpty())
-                    st.push(i);
-                // else, compare the current valid parentheses with max
-                else {
-                    maxLen = Math.max(maxLen, i - st.peek());
-                }
+            // reset if right > left, as it is no more valid
+            if (right > left) {
+                left=0;
+                right=0;
             }
         }
         
-        return maxLen;
+        // Run in reverse direction to handle left '(' orphans
+        // eg: (()
+
+        left = 0;
+        right = 0;
+
+        for (int i=n-1; i>=0; i--) {
+            if (s.charAt(i) == '(')
+                left++;
+            else
+                right++;
+            
+            // update max if left and right match
+            if (left == right)
+                max = Math.max(max, 2*left);
+
+            // reset if left > right, as it is no more valid
+            if (left > right) {
+                left = 0;
+                right = 0;
+            }
+        }
+
+        return max;
+
     }
 }
