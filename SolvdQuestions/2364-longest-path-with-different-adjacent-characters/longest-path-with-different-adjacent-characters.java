@@ -15,7 +15,7 @@ class Solution {
             else
                 max2 = Math.max(max2, len+1);
 
-            maxLen = Math.max(maxLen, max1+max2+1);
+            maxLen = Math.max(maxLen, max1+max2+1); // +1 since we calculate the number of nodes
         }
 
         return Math.max(max1, max2);
