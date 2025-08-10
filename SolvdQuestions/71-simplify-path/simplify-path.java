@@ -7,8 +7,6 @@ class Solution {
 
         Deque<String> st = new ArrayDeque<>();
 
-        int prevIndex = -1;
-
         for (String str: arr) {
 
             if ( str.equals(".") || str.equals("") )
