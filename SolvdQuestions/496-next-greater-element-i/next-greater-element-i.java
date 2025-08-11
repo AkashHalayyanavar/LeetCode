@@ -9,7 +9,7 @@ class Solution {
         Deque<Integer> st = new ArrayDeque<>();
         Map<Integer, Integer> mp = new HashMap<>();
 
-        // find out all the next greater elements in nums2
+        // find out all the next greater elements for elements in nums2 and store in map
         for (int i=n-1; i>=0; i--) {
             while (!st.isEmpty() && nums2[i] > st.peek()) {
                 st.poll();
@@ -25,6 +25,7 @@ class Solution {
             st.push(nums2[i]);
         }
 
+        // Now get the next greater elements for nums1 from the map and store in result
         for (int i=0; i<m; i++) {
             result[i] = mp.get(nums1[i]);
         }
