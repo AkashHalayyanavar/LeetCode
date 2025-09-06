@@ -5,7 +5,7 @@ class Solution {
 
         for (int i=0; i<nums.length; i++) {
             if (i <= maxReach)
-            maxReach = Math.max(maxReach, i+nums[i]);
+                maxReach = Math.max(maxReach, i+nums[i]);
         }
 
         return maxReach >= nums.length-1;
