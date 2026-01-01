@@ -1,20 +1,61 @@
+class TrieNode {
+    TrieNode[] child = new TrieNode[26];
+    boolean eow = false;
+    int count = 0;
+    char val;
+
+    TrieNode (char ch) {
+        val = ch;
+    }
+}
+
 class Solution {
-    public String longestCommonPrefix(String[] strs) {
-        
-        Arrays.sort(strs);
-        int n = strs.length;
-        String s1 = strs[0];
-        String s2 = strs[n-1];
 
-        int index = 0;
+    void populate(TrieNode root, String str) {
 
-        while ( index < s1.length() && index < s2.length() ) {
-            if (s1.charAt(index) == s2.charAt(index))
-                index++;
-            else
-                break;
+        for (char ch: str.toCharArray()) {
+            int index = ch - 'a';
+
+            if (root.child[index] == null) {
+                TrieNode node = new TrieNode(ch);
+                root.child[index] = node;
+                root.count++;
+            }
+            root = root.child[index];
         }
 
-        return s1.substring(0, index);
+        root.eow = true;
+    }
+
+    String getCommonPrefix(TrieNode root) {
+        StringBuilder sb = new StringBuilder();
+
+        // no common prefix case
+        if (root.count != 1)
+            return "";
+
+        while (root!=null && root.count == 1 && root.eow == false) {
+            for (int i=0; i<26; i++) {
+                if (root.child[i] != null) {
+                    sb.append(root.child[i].val);
+                    root = root.child[i];
+                    break;
+                }
+            }
+        }
+
+        return sb.toString();
+            
+    }
+
+    public String longestCommonPrefix(String[] strs) {
+        
+        TrieNode root = new TrieNode('/');
+
+        for (String str: strs) {
+            populate(root, str);
+        }
+
+        return getCommonPrefix(root);
     }
 }
