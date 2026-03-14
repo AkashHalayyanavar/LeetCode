@@ -8,11 +8,6 @@ class Solution {
         if (dp[index][buy][transactions] != null)
             return dp[index][buy][transactions];
 
-        // if (transactions == 0) {
-        //     dp[index][buy][transactions] = 0;
-        //     return dp[index][buy][transactions];
-        // }
-
         // buy=1 means buy, buy=0 means sell
         if (buy == 1) {
 
