@@ -29,6 +29,14 @@ class Solution {
         if (totalCost > totalGas) 
             return -1;
 
+        // else case, why only one loop works:
+        // Lets say the first part is before the start index and second part is after start index
+        // Let g1 and c1 be the sum of gas and sum of cost for first part
+        // Let g2 and c2 be the sum of gas and sum of cost for second part
+        // Now, we already know that g1+g2 >= c1+c2
+        // We have to prove why only the computation till end will prove it as start index
+        // From the equation we can deduce c1 <= g1 + (g2-c2), so with the left fuel + g1, we can definitely cover c1, hence no need to check, if not we are returning -1, as it will not be possible
+
         return start;
     }
 }
