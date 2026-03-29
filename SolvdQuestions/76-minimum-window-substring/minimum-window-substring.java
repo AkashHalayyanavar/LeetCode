@@ -1,46 +1,54 @@
 class Solution {
     public String minWindow(String s, String t) {
         
-        Map<Character, Integer> mp = new HashMap<>();
-        int count = t.length();
-        int startIndex = 0;
-        int minLen = Integer.MAX_VALUE;
+        int m = s.length();
+        int n = t.length();
 
-        // Add all the characters of t to the map
+        int remLen = n;
+
+        // put all the chars of string t to map
+        Map<Character, Integer> mp = new HashMap<>();
+
         for (char ch: t.toCharArray()) {
             mp.put(ch, mp.getOrDefault(ch, 0) + 1);
         }
+        
+        int startIndex = 0;
+        int minLen = Integer.MAX_VALUE;
+        int currLen = 0;
 
-        // For the string s go from left to right
         int i=0, j=0;
-        while (j < s.length()) {
-            char ch = s.charAt(j);
-            if (mp.containsKey(ch)) {
-
-                if (mp.get(ch) > 0) {
-                    count--;
+        while (i < m) {
+            char ch = s.charAt(i);
+            if ( mp.containsKey(ch) ) {
+                int val = mp.get(ch);
+                if (val >= 1) {
+                    remLen--;
                 }
-                mp.put(ch, mp.get(ch)-1);
+                mp.put(ch, val-1);
             }
-
-            while (count == 0) {
-                if ( minLen > j-i+1) {
-                    minLen = j-i+1;
-                    startIndex = i;
+            currLen++;
+            while (remLen == 0) {
+                char ch2 = s.charAt(j);
+                if (mp.containsKey(ch2)) {
+                    int val = mp.get(ch2);
+                    if (val == 0) {
+                        remLen++;
+                    }
+                    mp.put(ch2, mp.get(ch2) + 1);
                 }
-
-                if (mp.containsKey(s.charAt(i))) {
-                    int val = mp.get(s.charAt(i));
-                    mp.put(s.charAt(i), val + 1);
-                    if (val >= 0)
-                        count++;
+                if (minLen > i-j+1) {
+                    minLen = i-j+1;
+                    startIndex = j;
                 }
-                i++;
+                j++;
             }
-
-            j++;
+            i++;
         }
 
-        return minLen == Integer.MAX_VALUE ? new String() : s.substring(startIndex, startIndex+minLen);
+        if (minLen == Integer.MAX_VALUE)
+            return "";
+        
+        return s.substring(startIndex, startIndex+minLen);
     }
 }
