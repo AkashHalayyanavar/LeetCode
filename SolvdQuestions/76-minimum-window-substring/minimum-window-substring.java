@@ -32,7 +32,7 @@ class Solution {
                 char ch2 = s.charAt(j);
                 if (mp.containsKey(ch2)) {
                     int val = mp.get(ch2);
-                    if (val == 0) {
+                    if (val >= 0) {
                         remLen++;
                     }
                     mp.put(ch2, mp.get(ch2) + 1);
