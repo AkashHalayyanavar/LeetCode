@@ -1,26 +1,42 @@
 class Solution {
+
+    int getCount(String s, int start, int end, int[] dp) {
+
+        if (start == end)
+            return 1;
+
+        if (start == end-1) {
+            if (s.charAt(start) != '0')
+                return 1;
+            return 0;
+        }
+
+        if (dp[start] != -1)
+            return dp[start];
+
+        int firstNum = s.charAt(start) - '0';
+        int secondNum = 10 * (s.charAt(start) - '0') + (s.charAt(start+1) - '0');
+
+        int count = 0;
+        
+        if (firstNum > 0)
+            count = getCount(s, start+1, end, dp);
+
+        if (secondNum >= 10 && secondNum <= 26)
+            count += getCount(s, start+2, end, dp); 
+
+        dp[start] = count;
+        return count;
+    }
+
     public int numDecodings(String s) {
 
         int n = s.length();
         int[] dp = new int[n];
 
-        // base case
-        if ( s.charAt(0) >= '1' && s.charAt(0) <= '9')
-            dp[0] = 1;
-        else
-            return 0;
+        Arrays.fill(dp, -1);
 
-        // fill other values using dp
-        for (int i=1; i<n; i++) {
-            if ( s.charAt(i) >= '1' && s.charAt(i) <= '9')
-                dp[i] = dp[i-1];
-
-            int lastTwoDig = (s.charAt(i-1) - '0') * 10 + (s.charAt(i) - '0');
-            if (lastTwoDig >= 10 && lastTwoDig <= 26)
-                dp[i] = dp[i] + ( i>=2 ? dp[i-2] : 1 );
-            
-        }
-
-        return dp[n-1];
+        return getCount(s, 0, s.length(), dp);
+        
     }
 }
